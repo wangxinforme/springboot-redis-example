@@ -2,6 +2,7 @@
 /.externalToolBuilders
 /*.log
 /logs
+/log
 /.classpath
 /.project
 /.settings
