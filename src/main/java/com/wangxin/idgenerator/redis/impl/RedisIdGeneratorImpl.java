@@ -1,14 +1,5 @@
-package com.nepxion.aquarius.cache.service;
+package com.wangxin.idgenerator.redis.impl;
 
-/**
- * <p>Title: Nepxion Aquarius</p>
- * <p>Description: Nepxion Aquarius</p>
- * <p>Copyright: Copyright (c) 2017</p>
- * <p>Company: Nepxion</p>
- * @author Haojun Ren
- * @email 1394997@qq.com
- * @version 1.0
- */
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,12 +17,14 @@ import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Component;
 
-import com.nepxion.aquarius.common.util.DateUtil;
-import com.nepxion.aquarius.common.util.KeyUtil;
-import com.nepxion.aquarius.common.util.StringUtil;
+import com.wangxin.common.constant.AquariusConstant;
+import com.wangxin.common.exception.AquariusException;
+import com.wangxin.common.util.DateUtil;
+import com.wangxin.common.util.KeyUtil;
+import com.wangxin.common.util.StringUtil;
+import com.wangxin.idgenerator.redis.RedisIdGenerator;
 
-
-//@Component("redisIdGenerator")
+@Component("redisIdGeneratorImpl")
 public class RedisIdGeneratorImpl implements RedisIdGenerator {
     private static final Logger LOG = LoggerFactory.getLogger(RedisIdGeneratorImpl.class);
 
@@ -39,16 +32,13 @@ public class RedisIdGeneratorImpl implements RedisIdGenerator {
     private static final String DECIMAL_FORMAT = "00000000";
     private static final int MAX_BATCH_COUNT = 1000;
 
-    // @Resource
     @Autowired
-    private RedisTemplate<String, String> redisTemplate;
-    // @Autowired
-    // private RedisTemplate redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
-    @Value("${prefix}")
+    @Value("${" + AquariusConstant.PREFIX + "}")
     private String prefix;
 
-    @Value("${frequentLogPrint}")
+    @Value("${" + AquariusConstant.FREQUENT_LOG_PRINT + "}")
     private Boolean frequentLogPrint;
 
     private RedisScript<List<Object>> redisScript;
@@ -75,11 +65,11 @@ public class RedisIdGeneratorImpl implements RedisIdGenerator {
     @Override
     public String nextUniqueId(String name, String key, int step, int length) {
         if (StringUtils.isEmpty(name)) {
-            throw new RuntimeException("Name is null or empty");
+            throw new AquariusException("Name is null or empty");
         }
 
         if (StringUtils.isEmpty(key)) {
-            throw new RuntimeException("Key is null or empty");
+            throw new AquariusException("Key is null or empty");
         }
 
         String compositeKey = KeyUtil.getCompositeKey(prefix, name, key);
@@ -90,13 +80,12 @@ public class RedisIdGeneratorImpl implements RedisIdGenerator {
     @Override
     public String nextUniqueId(String compositeKey, int step, int length) {
         if (StringUtils.isEmpty(compositeKey)) {
-            throw new RuntimeException("Composite key is null or empty");
+            throw new AquariusException("Composite key is null or empty");
         }
 
         List<String> keys = new ArrayList<String>();
         keys.add(compositeKey);
-        // keys.add("10");
-        // List<Object> result =redisTemplate.execute(redisScript, keys, step);
+
         List<Object> result = redisTemplate.execute(redisScript, keys, step);
 
         Object value1 = result.get(0);
@@ -121,7 +110,7 @@ public class RedisIdGeneratorImpl implements RedisIdGenerator {
     @Override
     public String[] nextUniqueIds(String name, String key, int step, int length, int count) {
         if (count <= 0 || count > MAX_BATCH_COUNT) {
-            throw new RuntimeException(String.format("Count can't be greater than %d or less than 0", MAX_BATCH_COUNT));
+            throw new AquariusException(String.format("Count can't be greater than %d or less than 0", MAX_BATCH_COUNT));
         }
 
         String[] nextUniqueIds = new String[count];
@@ -135,7 +124,7 @@ public class RedisIdGeneratorImpl implements RedisIdGenerator {
     @Override
     public String[] nextUniqueIds(String compositeKey, int step, int length, int count) {
         if (count <= 0 || count > MAX_BATCH_COUNT) {
-            throw new RuntimeException(String.format("Count can't be greater than %d or less than 0", MAX_BATCH_COUNT));
+            throw new AquariusException(String.format("Count can't be greater than %d or less than 0", MAX_BATCH_COUNT));
         }
 
         String[] nextUniqueIds = new String[count];

@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.nepxion.aquarius.idgenerator.RedisIdGeneratorApplication;
-import com.nepxion.aquarius.idgenerator.redis.RedisIdGenerator;
+import com.wangxin.idgenerator.RedisIdGeneratorApplication;
+import com.wangxin.idgenerator.redis.RedisIdGenerator;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

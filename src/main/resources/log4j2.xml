@@ -1,33 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="warn" monitorInterval="30">
-    <Appenders>
-        <Console name="stdout" target="SYSTEM_OUT">
-            <!-- <PatternLayout pattern="%highlight{%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%class:%line] - %msg%n}{FATAL=Red, ERROR=Magenta, WARN=Yellow, INFO=Green, DEBUG=Cyan, TRACE=White}"/> -->
-            <!-- <PatternLayout pattern="%highlight{%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%class:%line] - %msg%n}{FATAL=Bright Red, ERROR=Bright Magenta, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White}"/> -->
-            <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%class:%line] - %msg%n"/>
-            <!-- <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%file:%line] - %msg%n"/> -->
-            <!-- <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %C %L - %msg%n"/> -->
-        </Console>
-        <!-- log/aquarius.log to project path -->
-        <!-- /log/aquarius.log to root path -->
-        <RollingRandomAccessFile name="logfile" fileName="log/aquarius.log" filePattern="log/aquarius-%d{yyyy-MM-dd}.log.%i">
-            <PatternLayout>
-                <Pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread][%class:%line] - %msg%n</Pattern>
-            </PatternLayout>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="12" modulate="true"/>
-                <SizeBasedTriggeringPolicy size="50MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="50"/>
-        </RollingRandomAccessFile>
-    </Appenders>
-    <Loggers>
-        <AsyncLogger name="com.nepxion.aquarius" level="info" additivity="false" includeLocation="true">
-            <AppenderRef ref="stdout"/>
-        </AsyncLogger>
-        <AsyncRoot level="info" includeLocation="true">
-            <!-- <AppenderRef ref="logfile"/> -->
-            <AppenderRef ref="stdout"/>
-        </AsyncRoot>
-    </Loggers>
-</Configuration>
+<configuration status="off" monitorInterval="1800">
+
+	<properties>
+		<property name="PATTERN_FORMAT">%d{yyyy/MM/dd HH:mm:ss,SSS} %-6p %-21t %c.%M(%F:%L) - %m%n</property>
+	</properties>
+
+	<appenders>
+		<Console name="Console" target="SYSTEM_OUT" follow="true">
+			<PatternLayout pattern="${PATTERN_FORMAT}" />
+		</Console>
+	</appenders>
+
+	<loggers>
+		<logger name="com.wangxin" level="debug" />
+		<logger name="org.springframework" level="debug" />
+		<logger name="springfox" level="info" />
+		<logger name="org.jboss" level="info" />
+		<logger name="org.fasterxml" level="info" />
+		<logger name="com.netflix" level="error" />
+		<logger name="org.hibernate" level="info" />
+		<logger name="javax.el" level="info" />
+		<logger name="org.apache" level="info" />
+		<logger name="com.alibaba" level="info" />
+		<logger name="druid.sql" level="info" />
+		<logger name="org.mybatis" level="info" />
+
+		<!-- mybatis sql log -->
+		<logger name="org.apache.ibatis.jdbc.ScriptRunner" level="debug" />
+		<logger name="java.sql.Connection" level="debug" />
+		<logger name="java.sql.Statement" level="debug" />
+		<logger name="java.sql.PreparedStatement" level="debug" />
+
+		<root level="debug">
+			<appender-ref ref="Console" />
+		</root>
+	</loggers>
+
+</configuration>

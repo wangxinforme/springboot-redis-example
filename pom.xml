@@ -166,11 +166,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>org.redisson</groupId> -->
-		<!-- <artifactId>redisson</artifactId> -->
-		<!-- <version>3.5.4</version> -->
-		<!-- </dependency> -->
+		<dependency>
+			<groupId>org.redisson</groupId>
+			<artifactId>redisson</artifactId>
+			<version>3.5.4</version>
+		</dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>redis.clients</groupId> -->
 		<!-- <artifactId>jedis</artifactId> -->
@@ -229,16 +229,6 @@
 			<groupId>com.lmax</groupId>
 			<artifactId>disruptor</artifactId>
 			<version>3.3.7</version>
-		</dependency>
-		<dependency>
-			<groupId>com.nepxion</groupId>
-			<artifactId>aquarius-cache-redis</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.nepxion</groupId>
-			<artifactId>aquarius-id-generator-redis</artifactId>
-			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 
