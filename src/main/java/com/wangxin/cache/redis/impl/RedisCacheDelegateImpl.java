@@ -12,7 +12,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
 import com.wangxin.cache.CacheDelegate;
-import com.wangxin.common.constant.AquariusConstant;
 import com.wangxin.common.util.KeyUtil;
 
 public class RedisCacheDelegateImpl implements CacheDelegate {
@@ -21,10 +20,14 @@ public class RedisCacheDelegateImpl implements CacheDelegate {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-    @Value("${" + AquariusConstant.PREFIX + "}")
+    // properties key
+    public static final String PREFIX = "prefix";
+    public static final String FREQUENT_LOG_PRINT = "frequentLogPrint";
+
+    @Value("${" + PREFIX + "}")
     private String prefix;
 
-    @Value("${" + AquariusConstant.FREQUENT_LOG_PRINT + "}")
+    @Value("${" + FREQUENT_LOG_PRINT + "}")
     private Boolean frequentLogPrint;
 
     @Override

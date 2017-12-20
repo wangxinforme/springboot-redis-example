@@ -1,6 +1,5 @@
 package com.wangxin.cache.service;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,8 +20,7 @@ import com.wangxin.common.util.DateUtil;
 import com.wangxin.common.util.KeyUtil;
 import com.wangxin.common.util.StringUtil;
 
-
-//@Component("redisIdGenerator")
+@Component
 public class RedisIdGeneratorImpl implements RedisIdGenerator {
     private static final Logger LOG = LoggerFactory.getLogger(RedisIdGeneratorImpl.class);
 
@@ -30,16 +28,17 @@ public class RedisIdGeneratorImpl implements RedisIdGenerator {
     private static final String DECIMAL_FORMAT = "00000000";
     private static final int MAX_BATCH_COUNT = 1000;
 
-    // @Resource
-    @Autowired
-    private RedisTemplate<String, String> redisTemplate;
-    // @Autowired
-    // private RedisTemplate redisTemplate;
+    // properties key
+    public static final String PREFIX = "prefix";
+    public static final String FREQUENT_LOG_PRINT = "frequentLogPrint";
 
-    @Value("${prefix}")
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
+    @Value("${" + PREFIX + "}")
     private String prefix;
 
-    @Value("${frequentLogPrint}")
+    @Value("${" + FREQUENT_LOG_PRINT + "}")
     private Boolean frequentLogPrint;
 
     private RedisScript<List<Object>> redisScript;
@@ -86,8 +85,7 @@ public class RedisIdGeneratorImpl implements RedisIdGenerator {
 
         List<String> keys = new ArrayList<String>();
         keys.add(compositeKey);
-        // keys.add("10");
-        // List<Object> result =redisTemplate.execute(redisScript, keys, step);
+
         List<Object> result = redisTemplate.execute(redisScript, keys, step);
 
         Object value1 = result.get(0);

@@ -7,15 +7,16 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import com.wangxin.common.redis.constant.RedisConstant;
-
 public class RedisHandler {
+    
     private static final Logger LOG = LoggerFactory.getLogger(RedisHandler.class);
+    
+    public static final String CONFIG_FILE = "config-redis.xml";
 
     // 创建默认RedisTemplate
     public static RedisTemplate<String, Object> createDefaultRedisTemplate() {
         try {
-            ApplicationContext applicationContext = createApplicationContext(RedisConstant.CONFIG_FILE);
+            ApplicationContext applicationContext = createApplicationContext(CONFIG_FILE);
 
             return RedisHandler.createRedisTemplate(applicationContext);
         } catch (Exception e) {
@@ -27,7 +28,7 @@ public class RedisHandler {
 
     // 创建ApplicationContext
     public static ApplicationContext createApplicationContext(String configPath) {
-        LOG.info("Start to initialize application context with {}...", RedisConstant.CONFIG_FILE);
+        LOG.info("Start to initialize application context with {}...", CONFIG_FILE);
 
         String path = null;
         if (RedisHandler.class.getClassLoader().getResourceAsStream(configPath) != null) {
